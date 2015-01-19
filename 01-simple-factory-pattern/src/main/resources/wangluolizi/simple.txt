@@ -1,0 +1,202 @@
+简单工厂模式。
+
+最开始学习设计模式的时候，对抽象类和接口这两个概念很是头疼。抽象类和接口类中，往往什么也不实现，只是定义一下方法。既然什么也不做，为什么还要用它们？
+在最开始自己写一些程序的时候，几乎是不用抽象类和接口。但随着学习的进一步深入，逐渐体会到了这两个东东的好处。下面就结合生活中的一些常见的事情，
+来和大家探讨一下简单工厂模式，在此过程中，来说说抽象类和接口的作用。
+大家都很希望有自己的一套属于自己的房子，于是大家很努力的工作，终于挣到了能够买起一套房子的钱。当大家去看房子时，房地产开发商会拿出很多户型给大家看，
+让大家选择自己喜欢的设计户型。那么房地产商是如何设计房子呢？作为一个家，客厅，卧室，厨房，卫生间是必不可少的。不管是什么户型的房子，都必须满足这些条件，
+否则，开发出来的房子就不符合消费者的要求，就卖不出去。这里的“家”，指我们所居住的房子，具有所有户型房子的共同点。如果不满足这些条件，就不能称之为家。
+我们可以把这个家当作设计模式里面的抽象类来看待，房地产商告诉户型的设计人员，你们设计的房子，必须在满足这个框框（客厅，卧室，厨房，卫生间）的基础上来设计，
+在满足家的基础上，不同户型的房子，客厅该多大，厨房该多大，卧室该朝哪面，是你们该考虑的事情。但是，这个“家”可不能理解错了，不能按照自己的想法，在里面随便添东东。
+比如：如果在“家”的卧室里面规定了有两个窗户，那么按照所有的户型房子都必须符合“家”的范畴的规定，所有的户型房子的卧室就都得有两个窗户。
+但有些消费者就是不喜欢卧室有两个窗户，就喜欢一个窗户，怎么办？所以不能在“家”这个抽象的概念上，增加具体的东西，这样会限制要求满足它的具体事物的扩展性。
+
+  //家.
+  public abstract class Home {
+      //客厅.
+      public abstract void Parlor();
+
+      //卧室.
+      public abstract void Bedroom();
+
+      //厨房.
+      public abstract void Kitchen();
+
+      //卫生间.
+      public abstract void Toilet();
+}
+     在满足“家”的基础上，不同户型的房子，根据不同的消费者，可以设计不同类型的客厅，卧室，厨房，卫生间等等。比如A型住宅，建造好后有一个简单的装修，B型和C型的住宅不需要装修。
+
+
+//装修.
+public interface Fitment {
+//客厅装修.
+    public void ParlorFitment();
+
+    //卧室装修.
+    public void BedroomFitment();
+
+    //厨房装修.
+    public void KitchenFitment();
+
+    //卫生间装修.
+    public void ToiletFitment();
+}
+
+
+//A型住宅.
+public class HouseA extends Home implements Fitment {
+   public void Parlor() {
+   System.out.println("This is parlor of House A.");
+   };
+
+   public void Bedroom() {
+   System.out.println("This is bedroom of House A.");
+   };
+
+   public void Kitchen() {
+   System.out.println("This is kitchen of House A.");
+   };
+
+   public void Toilet() {
+   System.out.println("This is toilet of House A.");
+   };
+
+       public void ParlorFitment() {
+       System.out.println("This is wangluolizi.fitment of parlor.");
+    }
+
+    public void BedroomFitment() {
+    	   System.out.println("This is wangluolizi.fitment of bedroom.");
+    }
+
+    public void KitchenFitment() {
+    	   System.out.println("This is wangluolizi.fitment of kitchen.");
+    }
+
+    public void ToiletFitment() {
+    	    System.out.println("This is wangluolizi.fitment of toilet.");
+    }
+}
+
+上面的A型住宅也许能够说明这个继承和接口，继承，就是“is-a”的关系，而接口则是“has-a”的关系。正如上面的A型住宅，它是一个“家”，并且有装修。
+而下面的B型和C型住宅，它们都是“家”，但没有装修，一样不影响居住。
+
+//B型住宅.
+public class HouseB extends Home {
+   public void Parlor() {
+   System.out.println("This is parlor of House B.");
+   };
+
+   public void Bedroom() {
+   System.out.println("This is bedroom of House B.");
+   };
+
+   public void Kitchen() {
+   System.out.println("This is kitchen of House B.");
+   };
+
+   public void Toilet() {
+   System.out.println("This is toilet of House B.");
+   };
+}
+
+//C型住宅.
+public class HouseC extends Home {
+   public void Parlor() {
+   System.out.println("This is parlor of House C.");
+   };
+
+   public void Bedroom() {
+   System.out.println("This is bedroom of House C.");
+   };
+
+   public void Kitchen() {
+   System.out.println("This is kitchen of House C.");
+   };
+
+   public void Toilet() {
+   System.out.println("This is toilet of House C.");
+   };
+}
+
+但大家在选房子的时候，一般来说是不关心盖房子的过程的（用的是什么水泥，请的是哪个施工队等等），只关心房子的质量。
+当大家选择好自己喜欢的户型时，跟房地产商洽谈好有关事宜，最后签订买卖合同，合同写明：XXX购买XXX房地产开发商的House X型住宅一套。
+房地产商觉得这个户型选择的人很多，于是开始建造该户型的房子。
+
+//消费者A.
+public class Buyer {
+    public static void main(String[] args) {
+
+        //找到房地产商，并告诉他，我要A型的房子。
+      	Landagent wangluolizi.landagent = new Landagent();
+        HouseA houseA = (HouseA)wangluolizi.landagent.BuildHouse("House A");
+
+        //房子盖好后，参观房内的卧室，客厅，厨房，卫生间。
+      	houseA.Bedroom();
+     	houseA.Kitchen();
+     	houseA.Parlor();
+     	houseA.Toilet();
+
+        //察看房子的装修。
+     	houseA.BedroomFitment();
+        houseA.KitchenFitment();
+        houseA.ParlorFitment();
+        houseA.ToiletFitment();    }
+}
+
+//消费者B.
+public class BuyerB {
+    public static void main(String[] args) {
+         //找到房地产商，并告诉他，我要B型的房子。
+    	Landagent wangluolizi.landagent = new Landagent();
+    	Home houseB = wangluolizi.landagent.BuildHouse("House B");
+
+    	    //房子盖好后，参观房内的卧室，客厅，厨房，卫生间。
+    	houseB.Bedroom();
+    	houseB.Kitchen();
+    	houseB.Parlor();
+    	houseB.Toilet();
+    }
+}
+
+//
+public class BuyerC {
+    public static void main(String[] args) {
+         //找到房地产商，并告诉他，我要C型的房子。
+    	Landagent wangluolizi.landagent = new Landagent();
+    	Home houseC = wangluolizi.landagent.BuildHouse("House C");
+
+      	//房子盖好后，参观房内的卧室，客厅，厨房，卫生间。
+    	houseC.Bedroom();
+    	houseC.Kitchen();
+    	houseC.Parlor();
+    	houseC.Toilet();
+    }
+}
+
+//房地产开发商.
+public class Landagent {
+
+    //根据消费者的选择，建造不同的房子。
+    public Home BuildHouse(String houseKind) {
+    	    if (houseKind.equals("House A")) {
+                //建造A型房子。
+    	    return new HouseA();
+        	} else if (houseKind.equals("House B")) {
+                //建造B型房子。
+    	    return new HouseB();
+      	} else if (houseKind.equals("House C")) {
+                //建造C型房子。
+    	    return new HouseC();
+     	} else {
+    	    return null;
+      	}
+    }
+}
+
+简单工厂模式的特点:
+工厂类是整个模式的关键所在。它包含必要的判断逻辑，能够根据外界给定的信息，决定究竟应该创建哪个具体类的对象。
+用户在使用时可以直接根据工厂类去创建所需的实例，而无需了解这些对象是如何创建以及如何组织的。有利于整个软件体系结构的优化。
+但是，简单工厂模式的缺点也正体现在其工厂类上，由于工厂类集中了所有实例的创建逻辑，所以“高内聚”方面做的并不好。
+另外，当系统中的具体产品类不断增多时，可能会出现要求工厂类也要做相应的修改，扩展性并不很好。
