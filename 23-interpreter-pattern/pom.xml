@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>design-patterns</artifactId>
+        <groupId>design-patterns</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>design-patterns.23-interpreter-pattern</groupId>
+    <artifactId>23-interpreter-pattern</artifactId>
+
+    <name>设计模式学习（design-patterns） :: 23-解释器模式（interpreter-pattern）</name>
+</project>
